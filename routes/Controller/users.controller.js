@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
  
-    const { Email, Password } = req.body;
+    const {Firstname,Lastname, Email, Password } = req.body;
 
         const{errors,isValid}=ValidateUser(req.body)
     try {
@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
             res.status(404).json(errors)
         }else{
             const hashedPassword = await bcrypt.hash(Password, 10);
-            const newUser = new Users({ Email, Password: hashedPassword });
+            const newUser = new Users({ Firstname, Lastname, Email, Password: hashedPassword });
             await newUser.save();
             /*await Users.create(req.body)*/
             res.status(201).json({message:'User Created'})
@@ -56,7 +56,7 @@ const loginUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await Users.find({}, 'Email');
+    const users = await Users.find({},'Firstname Lastname Email');
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
