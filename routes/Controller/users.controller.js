@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
- 
+  const blacklist = [];
     const {Firstname,Lastname, Email, Password } = req.body;
 
         const{errors,isValid}=ValidateUser(req.body)
@@ -22,7 +22,6 @@ const registerUser = async (req, res) => {
             const hashedPassword = await bcrypt.hash(Password, 10);
             const newUser = new Users({ Firstname, Lastname, Email, Password: hashedPassword });
             await newUser.save();
-            /*await Users.create(req.body)*/
             res.status(201).json({message:'User Created'})
             
         }
