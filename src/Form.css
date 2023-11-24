@@ -3,6 +3,21 @@
 
 
 
+.form-container {
+  text-align: center;
+  background-size: auto;
+  background-position: auto;
+}
+.centered-table {
+  display: flex;
+  justify-content: center;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  /* Add additional styles if needed */
+}
 
    
 .animated_div {

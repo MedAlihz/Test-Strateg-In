@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './LoginForm.css';
+import './Form.css';
+
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +12,12 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      alert('Please fill in all fields'); // Alert when fields are empty
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3700/login', {
         Email: email,
@@ -18,11 +25,8 @@ const LoginForm = () => {
       });
 
       const { token } = response.data;
-
       localStorage.setItem('token', token);
-    
-        navigate('/users');
- 
+      navigate('/users');
     } catch (error) {
       setError('Email or password incorrect');
     }
@@ -35,16 +39,27 @@ const LoginForm = () => {
 
       <form className="form-container" onSubmit={handleLogin}>
         <div>
-          <label class="text-center phrase mb-0" >Email:</label>
-          <input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label className="text-center phrase mb-0">Email:</label>
+          <input
+            placeholder="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div>
-          <label class="text-center phrase mb-0">Password:</label>
-          <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <label className="text-center phrase mb-0">Password:</label>
+          <input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
-        <button class="animated_div " type="submit">Login</button>
-        <p class="text-center phrase mb-0">Don't have an Account? <a href="/register">Sign Up</a></p>
- 
+        <button className="animated_div" type="submit">
+          Login
+        </button>
+        <p className="text-center phrase mb-0">Don't have an Account? <a href="/register">Sign Up</a></p>
       </form>
     </div>
   );
